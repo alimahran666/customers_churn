@@ -1,0 +1,78 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+#chose typr of drow 
+plt.style.use("fivethirtyeight")
+
+#read a dataset on data frame
+df=pd.read_csv("E:\depi\Customer_Churn\Telco-Customer-Churn.csv")
+
+#show 5 rows of dataset
+df.head(10)
+/////////////////////*************///////////////////////////////////////
+**********************************************************************
+
+
+#***test the dataset has any null values
+#***show all data if any cell has null value it show false and if it has 0 or any data it show false
+#print(data.isnull())
+
+#***show count for each field if it has any
+#***check of missing values
+#print(data.isnull().sum())
+
+
+#***show length of data rows*columns
+#df.shape
+
+# can show abreif on all columns
+df.info()
+//**************************************///////////////////////////////////////
+******************************************************************************
+#delete column customerid i don.t need it throgh processing data
+#inplace=True: هذه المعلمة تخبر الدالة بأن التغييرات التي قمنا بها يجب أن تحدث على إطار البيانات الأصلي وليس على نسخة جديدة منه
+df.drop(columns=['customerID'],inplace=True)
+
+#show columns name
+df.columns
+
+df.head()
+df.shape
+df.columns
+df.info()
+//////////////////////////////////////////*******************************
+******************************************************************
+#.value_counts(): هذه دالة من مكتبة Pandas تقوم بإحصاء عدد مرات ظهور كل قيمة فريدة في السلسلة (Series) التي تم تحديدها.
+#df['gender'].value_counts()
+
+#df['SeniorCitizen'].value_counts()
+
+#.unique(): هذه الدالة تقوم باستخراج القيم الفريدة الموجودة في السلسل
+#df['SeniorCitizen'].unique()
+
+#show loop all columns except 3 columns to show count unique values fro process
+for col in df.columns:
+    if col not in ['tenure','MonthlyCharges','TotalCharges']:
+        print(col,df[col].unique())
+        print("----------------------------")
+////////////////////////////////////////////////////////////////////////////////////////
+//////////////*************************************************************************
+# df[df[col]==" "]
+#هذا الجزء يختار الصفوف من إطار البيانات
+#يستخدم لتحديد عدد القيم الفارغة (الممثلة بمسافات فارغة) في أعمدة معين
+
+for col in ['tenure','MonthlyCharges','TotalCharges']:
+    print(col,len(df[df[col]==" "]))
+    print("--------------------------")
+
+///////////////////////////////////////////////////////////////////////////////////////
+////////////*************************************************************************
+#السطر يقوم بتحويل القيم الفارغة في العمود الى قيم  قيمة رقمية (0.0)  
+#ثم يحول نوع البيانات في العمود بأكمله إلى نوع "float" (الأعداد العشورية)
+#السبب في استبدال القيم الفارغة بصفر هو أننا سنقوم بتحويل العمود إلى نوع رقمي، والقيم الفارغة لا يمكن تحويلها إلى أرقام مباشرة.
+df['TotalCharges']=df['TotalCharges'].replace({" ": "0.0"}).astype(float)
+df.describe()
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////*********************************************************
